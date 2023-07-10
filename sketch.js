@@ -1,65 +1,59 @@
-var iss1,sc,sc1,sc2,sc3,sc4
-var iss, spacecraft,hadDocked
+var iss, spacecraft;
+var bg, issimg, scimg;
+var hasDocked = false;
 
 function preload(){
-iss1=loadImage("Docking-undocking/iss.png")
-sc=loadImage("Docking-undocking/spacebg.jpg")
-sc1=loadImage("Docking-undocking/spacecraft1.png")
-sc2=loadImage("Docking-undocking/spacecraft2.png")
-sc3=loadImage("Docking-undocking/spacecraft3.png")
-sc4=loadImage("Docking-undocking/spacecraft4.png")
-
+  bg = loadImage("space.jpg");
+  issimg = loadImage("iss.png");
+  scimg = loadImage("spacecraft1.png");
+  scimg1 = loadImage("spacecraft2.png");
+  scimg2 = loadImage("spacecraft3.png");
+  scimg3 = loadImage("spacecraft4.png");
 }
 
-
-
-
-
-
 function setup() {
-  createCanvas(1200,600);
-  iss=createSprite(600,310,50,50)
-  iss.addImage(iss1)
-  iss.scale=1
-  spacecraft=createSprite(600,500,50,50)
-  spacecraft.addImage(sc1)
-  spacecraft.scale=0.3
+  createCanvas(600, 350);
+  spacecraft = createSprite(285, 240);
+  spacecraft.addImage(scimg);
+  spacecraft.scale = 0.15;
+  
+  iss = createSprite(330, 130);
+  iss.addImage(issimg);
+  iss.scale = 0.25;
 }
 
 function draw() {
-  background(sc);
-  if(keyDown("UP_ARROW")){
-    spacecraft.y=spacecraft.y-1
-  }
+  background(bg);
   
-  if(keyDown("DOWN_ARROW")){
-    spacecraft.X=spacecraft.X+1
-    spacecraft.addImage(sc2)
-  }
-  if(!hasDocked){
-    spacecraft.x=spacecraft.x+random(-1,1)
-  
-    if(keyDown("RIGHT_ARROW")){
-      spacecraft.X=spacecraft.X+1
-      spacecraft.addImage(sc2)
+  if (!hasDocked) {
+    spacecraft.addImage(scimg);
+    spacecraft.x = spacecraft.x + random(-1, 1);
+    
+    if (keyDown("UP_ARROW")) {
+      spacecraft.y = spacecraft.y - 2;
     }
-
-
-
-      if(keyDown("LEFT_ARROW")){
-        spacecraft.X=spacecraft.X+1
-        spacecraft.addImage(sc2)
-      }
-
-      if(spacecraft.y <= (iss.y+70) && spacecraft.x <= (iss.x-10)){
-        hasDocked = true;
-      }
+    
+    if (keyDown("LEFT_ARROW")) {
+      spacecraft.addImage(scimg3);
+      spacecraft.x = spacecraft.x - 1;
+    }
+    
+    if (keyDown("RIGHT_ARROW")) {
+      spacecraft.addImage(scimg2);
+      spacecraft.x = spacecraft.x + 1;
+    }
+    
+    if (keyDown("DOWN_ARROW")) {
+      spacecraft.addImage(scimg1);
+    }
   }
 
-    drawSprites();
+  if (spacecraft.y <= (iss.y + 180) && spacecraft.x <= (iss.x - 10)) {
+    hasDocked = true;
+    textSize(25);
+    fill("white");
+    text("Docking Successful!", 200, 300);
+  }
 
-
+  drawSprites();
 }
-
-
-
